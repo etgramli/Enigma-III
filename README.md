@@ -6,9 +6,9 @@ This is a implementation of a "Emigma III" wooden model for a IT-Security lectur
 ## Command line options
 ### -h
 Help text with the git commit hash and this ecplanation of the command line options.
-### -g1 <alphabet permutation>
-### -g2 <alphabet permutation>
-### -g3 <alphabet permutation>
+### -gear1 <alphabet permutation>
+### -gear2 <alphabet permutation>
+### -gear3 <alphabet permutation>
 Permutations of the alphabet for the first, second and third gearwheel. (i.e. "ADCBEHFGILJKMPNOQTRSUXVWZY")
 ### -s <start positions>
 Start positions of the three gearwheels. (i.e. "SEC")

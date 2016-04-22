@@ -1,12 +1,15 @@
 //main.cpp
+
 #include "wheel.h"
 #include "direction.h"
+#include "gitversion.h"
 
 #include <getopt.h>
 #include <stdio.h>
 #include <cstdlib>
 
 void printHelp() {
+    printf("This is made from commit: %s\n\n", gitversion);
     printf("\nThis Enigma-III consists of three \"gearwheels\", every with a\n");
     printf("(seperate) permutataion of the letters of the alphabet. - Just to\n");
     printf("make it clear: A permutataion in this case is a list of the\n");
@@ -35,18 +38,21 @@ void printHelp() {
 
 static int NUMWHEELS = 3;
 static struct option long_options[] = {
-    {"gear1", required_argument, 0, 0},
-    {"gear2", required_argument, 0, 0},
-    {"gear2", required_argument, 0, 0},
+    {"gear1", required_argument, NULL, 0},
+    {"gear2", required_argument, NULL, 0},
+    {"gear2", required_argument, NULL, 0},
+    {NULL, 0, NULL, 0}
 };
 
 int main(int argc, char* argv[]) {
     char *startPositions = NULL;
     startPositions = (char *)malloc(sizeof(char) * 3);
-    
+
     // parse options
     char c;
-    while ((c = getopt(argc, argv, "hs:")) != -1) {
+    int option_index = 0;
+    while ((c = getopt_long(argc, argv, "hs:",
+                            long_options, &option_index)) != -1) {
         switch (c) {
         case 'h':
             printHelp();

@@ -5,7 +5,7 @@ This is a implementation of a "Emigma III" wooden model for a IT-Security lectur
 
 ## Command line options
 ### -h
-Helo text
+Help text with the git commit hash and this ecplanation of the command line options.
 ### -g1 <alphabet permutation>
 ### -g2 <alphabet permutation>
 ### -g3 <alphabet permutation>

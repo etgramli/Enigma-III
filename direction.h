@@ -1,30 +1,11 @@
 //direction.h
 
+#ifndef DIRECTION_H
+#define DIRECTION_H
+
 enum class Direction {
-    CLOCKWISE
+    CLOCKWISE,
     ANTICLOCKWISE
 };
 
-Direction& operator++(Direction& direction) {
-    switch(direction) {
-    case Direction::CLOCKWISE:
-        return ANTICLOCKWISE;
-        break;
-    case Direction::ANTICLOCKWISE:
-        return CLOCKWISE;
-    default:
-        return NULL;
-    }
-}
-
-Direction& operator--(Direction& direction) {
-    switch(direction) {
-    case Direction::CLOCKWISE:
-        return ANTICLOCKWISE;
-        break;
-    case Direction::ANTICLOCKWISE:
-        return CLOCKWISE;
-    default:
-        return NULL;
-    }
-}
+#endif

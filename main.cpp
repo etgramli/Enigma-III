@@ -5,8 +5,17 @@
 #include "gitversion.h"
 
 #include <getopt.h>
-#include <stdio.h>
+#include <cstdio>
 #include <cstdlib>
+#include <string>
+#include <vector>
+#include <regex>
+
+bool checkIfStartPositionsIsValid(std::string startPositions);
+bool checkIfAlphabetPermutationIsVaild(std::string permutation);
+
+static int NUMWHEELS = 3;
+static std::string startPosRegexString(R"([:alpha:]{3})");
 
 void printHelp() {
     printf("\nThis is made from commit: %s\n\n", gitversion);
@@ -50,29 +59,41 @@ void printHelp() {
     printf("This program is licensed under GPLv3 (see LICENSE).\n\n");
 }
 
-static int NUMWHEELS = 3;
 static struct option long_options[] = {
-    {"gear1", required_argument, NULL, 0},
-    {"gear2", required_argument, NULL, 0},
-    {"gear2", required_argument, NULL, 0},
+    {"gear1", required_argument, NULL, 'a'},
+    {"gear2", required_argument, NULL, 'b'},
+    {"gear3", required_argument, NULL, 'c'},
     {NULL, 0, NULL, 0}
 };
 
 int main(int argc, char* argv[]) {
-    char *startPositions = NULL;
-    startPositions = (char *)malloc(sizeof(char) * 3);
+    std::string startPositions;
+    std::vector<std::string> permutations(NUMWHEELS);
+    
 
     // parse options
     char c;
     int option_index = 0;
-    while ((c = getopt_long(argc, argv, "hs:",
+    while ((c = getopt_long(argc, argv, "a:b:c:hs:",
                             long_options, &option_index)) != -1) {
         switch (c) {
+        case 'a':
+            printf("a or gear1 is: %s\n", optarg);
+            permutations[0] = std::string(optarg);
+            break;
+        case 'b':
+            printf("b or gear2 is: %s\n", optarg);
+            permutations[1] = std::string(optarg);
+            break;
+        case 'c':
+            printf("c or gear3 is: %s\n", optarg);
+            permutations[2] = std::string(optarg);
+            break;
         case 'h':
             printHelp();
             break;
         case 's':
-            c = 's';    // Replace
+            startPositions = std::string(optarg);
             break;
         default:
             printf("Argument not recognized!!!");
@@ -86,5 +107,33 @@ int main(int argc, char* argv[]) {
     // calculate
     
     // print result
+    printf("\n\n\n");
+    printf("Start values: %s\n", startPositions.c_str());
+    if (checkIfStartPositionsIsValid(startPositions)) {
+        printf("Start positions are valid!");
+    } else {
+        printf("Start positions are retarded!");
+    }
+    printf("\n\n\n");
     
+    // CleanUp
+}
+
+bool checkIfStartPositionsIsValid(std::string startPositions) {
+    if (startPositions.empty() || startPositions.length() != 3) {
+        return false;
+    }
+    // Must be three letters long
+    std::regex startPointsRegex(startPosRegexString);
+    if (std::regex_match(startPositions, startPointsRegex)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool checkIfAlphabetPermutationIsVaild(std::string permutation) {
+    // Length must be 26 characters
+    // Every letter must be represented once
+    return false;
 }

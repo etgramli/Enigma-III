@@ -46,6 +46,8 @@ void printHelp() {
     printf("\tencrypted lettershave to be the input of gearwheel three. The even\n");
     printf("\tposition letters have to be read from the first gearwheel and the\n");
     printf("\todd letters from the second gearwheel respectively.\n\n");
+    
+    printf("This program is licensed under GPLv3 (see LICENSE).\n\n");
 }
 
 static int NUMWHEELS = 3;

@@ -5,9 +5,16 @@ This is a implementation of a "Emigma III" wooden model for a IT-Security lectur
 
 ## Command line options
 ### -h
+Helo text
+### -g1 <alphabet permutation>
+### -g2 <alphabet permutation>
+### -g3 <alphabet permutation>
+Permutations of the alphabet for the first, second and third gearwheel. (i.e. "ADCBEHFGILJKMPNOQTRSUXVWZY")
+### -s <start positions>
+Start positions of the three gearwheels. (i.e. "SEC")
 
 ## Introduction
-This Enigma-III consists of three "gearwheel", every with a (seperate) permutataion of the letters of the alphabet. - Just to make it clear: A permutataion in this case is a list of the characters of the alphabet (all 26) with a order, that may be different from the normal order. The program assumes that all letters are only once in the permutataion.
+This Enigma-III consists of three "gearwheels", every with a (seperate) permutataion of the letters of the alphabet. - Just to make it clear: A permutataion in this case is a list of the characters of the alphabet (all 26) with a order, that may be different from the normal order. The program assumes that all letters are only once in the permutataion.
 
 You can set a start position of every gearwheel seperately. If you did not, the first letter is the start position.
 

@@ -83,15 +83,12 @@ int main(int argc, char* argv[]) {
                             long_options, &option_index)) != -1) {
         switch (c) {
         case 'a':
-            printf("a or gear1 is: %s\n", optarg);
             permutations[0] = std::string(optarg);
             break;
         case 'b':
-            printf("b or gear2 is: %s\n", optarg);
             permutations[1] = std::string(optarg);
             break;
         case 'c':
-            printf("c or gear3 is: %s\n", optarg);
             permutations[2] = std::string(optarg);
             break;
         case 'd':
@@ -123,7 +120,7 @@ int main(int argc, char* argv[]) {
         gearwheels[i] = Wheel(permutations[i]);
         gearwheels[i].setStartPosition(startPositions[i]);
     }
-    gearwheels[0].setNeighbors(NULL, &gearwheels[0]);
+    gearwheels[0].setNeighbors(NULL, &gearwheels[1]);
     gearwheels[1].setNeighbors(&gearwheels[0], &gearwheels[2]);
     gearwheels[2].setNeighbors(&gearwheels[1], NULL);
     
@@ -133,18 +130,14 @@ int main(int argc, char* argv[]) {
     std::string target = std::string();
     for (unsigned int i = 0; i < message.length(); i++) {
         // Go to char (dispatch to gearwheel).
-        printf("\t%d\t", i % 2);
         gearwheels[i % 2].goToChar(message[i]);
         // Get char from 3d wheel
         target.push_back(gearwheels[2].getCurrentChar());
     }
     
-    // print result
+
     printf("The result is:\n\n%s\n\n", target.c_str());
-    
-    // CleanUp
-    
-    
+
     return 0;
 }
 

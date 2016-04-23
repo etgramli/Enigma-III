@@ -42,37 +42,33 @@ void Wheel::goToChar(char toSearch) {
 
 void Wheel::nextChar(Direction direction, Wheel* originator) {
     // First visit my next char
+    Direction opposite;
     if (direction == Direction::CLOCKWISE) {
         if (index < NUMCHARACTERSINALPHABET - 1) {
             index++;
         } else {
             index = 0;
         }
+        opposite = Direction::ANTICLOCKWISE;
     } else if (direction == Direction::ANTICLOCKWISE) {
         if (index > 0) {
             index--;
         } else {
             index = NUMCHARACTERSINALPHABET - 1;
         }
+        opposite = Direction::CLOCKWISE;
     }
     
     // Move the other neighbors by the opposite direction
-    Direction opposite = direction == Direction::ANTICLOCKWISE ?
-                         Direction::CLOCKWISE : Direction::ANTICLOCKWISE;
-    if (leftNeighbor != NULL) {
-        if (leftNeighbor != originator) {
-            leftNeighbor->nextChar(opposite, this);
-        }
+    if (leftNeighbor != NULL && leftNeighbor != originator) {
+        leftNeighbor->nextChar(opposite, this);
     }
-    if (rightNeighbor != NULL) {
-        if (rightNeighbor != originator) {
-            rightNeighbor->nextChar(opposite, this);
-        }
+    if (rightNeighbor != NULL && rightNeighbor != originator) {
+        rightNeighbor->nextChar(opposite, this);
     }
 }
 
 bool Wheel::contains(char toSearch) {
-    printf("\n%c\n", toSearch);
     bool contains = false;
     for (int i = 0; i < NUMCHARACTERSINALPHABET; i++) {
         contains = (alphabet_permuation[i] == toSearch);

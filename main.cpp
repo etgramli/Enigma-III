@@ -124,15 +124,23 @@ int main(int argc, char* argv[]) {
     gearwheels[1].setNeighbors(&gearwheels[0], &gearwheels[2]);
     gearwheels[2].setNeighbors(&gearwheels[1], NULL);
     
-    // calculate
     printf("Message: \"%s\"\n\n", message.c_str());
     
+    // calculate
     std::string target = std::string();
-    for (unsigned int i = 0; i < message.length(); i++) {
-        // Go to char (dispatch to gearwheel).
-        gearwheels[i % 2].goToChar(message[i]);
-        // Get char from 3d wheel
-        target.push_back(gearwheels[2].getCurrentChar());
+    
+    if (!decryption) {
+        for (unsigned int i = 0; i < message.length(); i++) {
+            // Go to char (dispatch to gearwheel).
+            gearwheels[i % 2].goToChar(message[i]);
+            // Get char from 3d wheel
+            target.push_back(gearwheels[2].getCurrentChar());
+        }
+    } else {
+        for (unsigned int i = 0; i < message.length(); i++) {
+            gearwheels[2].goToChar(message[i]);
+            target.push_back(gearwheels[i % 2].getCurrentChar());
+        }
     }
     
 

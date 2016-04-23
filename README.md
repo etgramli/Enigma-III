@@ -12,7 +12,11 @@ Help text with the git commit hash and this ecplanation of the command line opti
 ### -gear3 <alphabet permutation>
 Permutations of the alphabet for the first, second and third gearwheel. (i.e. "ADCBEHFGILJKMPNOQTRSUXVWZY")
 ### -s <start positions>
-Start positions of the three gearwheels. (i.e. "SEC")
+Start positions of the three gearwheels. (i.e. "SEC").
+### -m <message>
+The message string (use quotesif it conatins spaces).
+### -d
+Flag: decryprion instead of encryption.
 
 ## Introduction
 This Enigma-III consists of three "gearwheels", every with a (seperate) permutataion of the letters of the alphabet. - Just to make it clear: A permutataion in this case is a list of the characters of the alphabet (all 26) with a order, that may be different from the normal order. The program assumes that all letters are only once in the permutataion.

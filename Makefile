@@ -6,7 +6,7 @@ TARGET=enigma
 debug: main.cpp $(OBJECTS)
 	$(CC) $(CPPFLAGS) -g $< $(OBJECTS) -o $(TARGET)_debug
 
-enigma: main.cpp gitversion.o
+enigma: main.cpp $(OBJECTS)
 	$(CC) $(CPPFLAGS) -O2 $< $(OBJECTS) -o $@
 
 %.o: %.c

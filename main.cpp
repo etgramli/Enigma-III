@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
-#include <regex>
 
 bool checkIfStartPositionsIsValid(std::string startPositions);
 
@@ -20,13 +19,19 @@ void printHelp() {
     
     printf("Options:\n");
     printf("\t-h\n");
-    printf("\t\tHelp text with the git commit hash and this ecplanation of the command line options.\n");
+    printf("\t\tHelp text with the git commit hash and this ecplanation of the\n");
+    printf("\t\tcommand line options.\n");
     printf("\t-gear1 <alphabet permutation>\n");
     printf("\t-gear2 <alphabet permutation>\n");
     printf("\t-gear3 <alphabet permutation>\n");
-    printf("\t\tPermutations of the alphabet for the first, second and third gearwheel. (i.e. \"ADCBEHFGILJKMPNOQTRSUXVWZY\")\n");
+    printf("\t\tPermutations of the alphabet for the first, second and third\n");
+    printf("\t\tgearwheel.(i.e. \"ADCBEHFGILJKMPNOQTRSUXVWZY\")\n");
     printf("\t-s <start positions>\n");
-    printf("\t\tStart positions of the three gearwheels. (i.e. \"SEC\")\n\n");
+    printf("\t\tStart positions of the three gearwheels. (i.e. \"SEC\")\n");
+    printf("\t-m <message>\n");
+    printf("\t\tThe message string in quotes.\n");
+    printf("\t-d\n");
+    printf("\t\tFlag: decryprion instead of encryption.\n\n");
 
     printf("Introduction\n");
     printf("\tThis Enigma-III consists of three \"gearwheels\", every with a\n");
@@ -66,13 +71,15 @@ static struct option long_options[] = {
 
 int main(int argc, char* argv[]) {
     std::string startPositions;
+    std::string message;
     std::vector<std::string> permutations(NUMWHEELS);
-    
+
 
     // parse options
     char c;
     int option_index = 0;
-    while ((c = getopt_long(argc, argv, "a:b:c:hs:",
+    bool decryption = false;
+    while ((c = getopt_long(argc, argv, "a:b:c:dhm:s:",
                             long_options, &option_index)) != -1) {
         switch (c) {
         case 'a':
@@ -87,18 +94,24 @@ int main(int argc, char* argv[]) {
             printf("c or gear3 is: %s\n", optarg);
             permutations[2] = std::string(optarg);
             break;
+        case 'd':
+            decryption = true;
+            break;
         case 'h':
             printHelp();
+            break;
+        case 'm':
+            message = std::string(optarg);
             break;
         case 's':
             startPositions = std::string(optarg);
             if (!checkIfStartPositionsIsValid(startPositions)) {
                 printf("Start positions are NOT valid!\tMust be three characters (i.e. \"-sabc\").\n\n");
+                exit(-1);
             }
-            exit(-1);
             break;
         default:
-            printf("Argument not recognized!!!");
+            printf("Argument not recognized!!!\n");
             break;
         }
     }
@@ -106,13 +119,33 @@ int main(int argc, char* argv[]) {
     
     // init
     std::vector<Wheel> gearwheels(3);
+    for (int i = 0; i < 3; i++) {
+        gearwheels[i] = Wheel(permutations[i]);
+        gearwheels[i].setStartPosition(startPositions[i]);
+    }
+    gearwheels[0].setNeighbors(NULL, &gearwheels[0]);
+    gearwheels[1].setNeighbors(&gearwheels[0], &gearwheels[2]);
+    gearwheels[2].setNeighbors(&gearwheels[1], NULL);
     
     // calculate
+    printf("Message: \"%s\"\n\n", message.c_str());
+    
+    std::string target = std::string();
+    for (unsigned int i = 0; i < message.length(); i++) {
+        // Go to char (dispatch to gearwheel).
+        printf("\t%d\t", i % 2);
+        gearwheels[i % 2].goToChar(message[i]);
+        // Get char from 3d wheel
+        target.push_back(gearwheels[2].getCurrentChar());
+    }
     
     // print result
-
+    printf("The result is:\n\n%s\n\n", target.c_str());
     
     // CleanUp
+    
+    
+    return 0;
 }
 
 bool checkIfStartPositionsIsValid(std::string startPositions) {

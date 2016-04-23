@@ -8,12 +8,24 @@ Wheel::Wheel() {
     alphabet_permuation = std::string(alphabet);
     leftNeighbor = NULL;
     rightNeighbor = NULL;
+    index = 0;
 }
 
-Wheel::Wheel(char alphabet_permutation[]) {
-    // allocate memorey and copy values from parameter alphabet_permutation to local variable
+Wheel::Wheel(std::string alphabet_permutation) {
+    if (!this->checkPermutation(alphabet_permutation)) {
+        this->alphabet_permuation = std::string(alphabet, alphabet + NUMCHARACTERSINALPHABET);
+        printf("\nPermutation is NOT correct!\n");
+    } else {
+        this->alphabet_permuation = std::string(alphabet_permutation);
+    }
     leftNeighbor = NULL;
     rightNeighbor = NULL;
+    index = 0;
+}
+
+void Wheel::setNeighbors(Wheel* left, Wheel* right) {
+    this->leftNeighbor = left;
+    this->rightNeighbor = right;
 }
 
 char Wheel::getCurrentChar() {
@@ -24,18 +36,11 @@ void Wheel::goToChar(char toSearch) {
     assert(contains(toSearch));
     // Move this index clockwise until the character is found
     while (alphabet_permuation[index] != toSearch) {
-        nextChar(Direction::CLOCKWISE);
-        // Then move my neighbor by the opposite direction
-        if (leftNeighbor != NULL) {
-            leftNeighbor->nextChar(Direction::ANTICLOCKWISE);
-        }
-        if (rightNeighbor != NULL) {
-            rightNeighbor->nextChar(Direction::ANTICLOCKWISE);
-        }
+        nextChar(Direction::CLOCKWISE, this);
     }
 }
 
-void Wheel::nextChar(Direction direction) {
+void Wheel::nextChar(Direction direction, Wheel* originator) {
     // First visit my next char
     if (direction == Direction::CLOCKWISE) {
         if (index < NUMCHARACTERSINALPHABET - 1) {
@@ -50,12 +55,27 @@ void Wheel::nextChar(Direction direction) {
             index = NUMCHARACTERSINALPHABET - 1;
         }
     }
+    
+    // Move the other neighbors by the opposite direction
+    Direction opposite = direction == Direction::ANTICLOCKWISE ?
+                         Direction::CLOCKWISE : Direction::ANTICLOCKWISE;
+    if (leftNeighbor != NULL) {
+        if (leftNeighbor != originator) {
+            leftNeighbor->nextChar(opposite, this);
+        }
+    }
+    if (rightNeighbor != NULL) {
+        if (rightNeighbor != originator) {
+            rightNeighbor->nextChar(opposite, this);
+        }
+    }
 }
 
 bool Wheel::contains(char toSearch) {
+    printf("\n%c\n", toSearch);
     bool contains = false;
     for (int i = 0; i < NUMCHARACTERSINALPHABET; i++) {
-        contains = alphabet_permuation[i] == toSearch;
+        contains = (alphabet_permuation[i] == toSearch);
         if (contains) {
             break;
         }
@@ -66,12 +86,15 @@ bool Wheel::contains(char toSearch) {
 void Wheel::setStartPosition(char start) {
     assert(contains(start));
     // Set the index without updating the neighbors
-    while (alphabet_permuation[index] != start) {
-        nextChar(Direction::CLOCKWISE);
+    for(int i = 0; i < NUMCHARACTERSINALPHABET; i++) {
+        if (alphabet_permuation[i] == start) {
+            index = i;
+            return;
+        }
     }
 }
 
-bool Wheel::checkPermutation(char permutation[]) {
+bool Wheel::checkPermutation(std::string permutation) {
     // Copy of the string
     std::string permut(permutation);
 
@@ -87,7 +110,7 @@ bool Wheel::checkPermutation(char permutation[]) {
             // Check if the letter is in the list of remaining letters
             for (char currentChar : charsLeft) {
                 // If the letter was not used before remove it and proceed
-                if (currentChar == permut[i]) {
+                if (toupper(currentChar) == toupper(permut[i])) {
                     charsLeft.remove(permut[i]);
                     break;
                 // If end of list reached this means that the current character is used twice

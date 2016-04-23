@@ -13,19 +13,20 @@ static char alphabet[] = "abcdefghijklmnopqrstuvwxyz";
 
 class Wheel {
     std::string alphabet_permuation;
-    char* currentChar;
     int index;
     Wheel* leftNeighbor;
     Wheel* rightNeighbor;
     
-    bool checkPermutation(char permutation[]);
+    bool checkPermutation(std::string permutation);
     
-    void nextChar(Direction direction);
+    void nextChar(Direction direction, Wheel* originator);
     
     public:
     Wheel();
-    Wheel(char alphabet_permutation[]);
+    Wheel(std::string alphabet_permutation);
     void setStartPosition(char start);
+    void setNeighbors(Wheel* left, Wheel* right);
+
     char getCurrentChar();
     void goToChar(char toSearch);
     bool contains(char toSearch);

@@ -2,6 +2,8 @@
 
 #include "wheel.h"
 
+#include <list>
+
 Wheel::Wheel() {
     alphabet_permuation = std::string(alphabet);
     leftNeighbor = NULL;
@@ -36,7 +38,7 @@ void Wheel::goToChar(char toSearch) {
 void Wheel::nextChar(Direction direction) {
     // First visit my next char
     if (direction == Direction::CLOCKWISE) {
-        if (index < CHARACTERSINALPHABET - 1) {
+        if (index < NUMCHARACTERSINALPHABET - 1) {
             index++;
         } else {
             index = 0;
@@ -45,14 +47,14 @@ void Wheel::nextChar(Direction direction) {
         if (index > 0) {
             index--;
         } else {
-            index = CHARACTERSINALPHABET - 1;
+            index = NUMCHARACTERSINALPHABET - 1;
         }
     }
 }
 
 bool Wheel::contains(char toSearch) {
     bool contains = false;
-    for (int i = 0; i < CHARACTERSINALPHABET; i++) {
+    for (int i = 0; i < NUMCHARACTERSINALPHABET; i++) {
         contains = alphabet_permuation[i] == toSearch;
         if (contains) {
             break;
@@ -71,5 +73,23 @@ void Wheel::setStartPosition(char start) {
 
 bool Wheel::checkPermutation(char permutation[]) {
     // IMPLEMENT THIS !
-    return false;
+
+    std::string permut(permutation);
+
+    if (permut.length() != NUMCHARACTERSINALPHABET) {
+        return false;
+    } else {
+        std::list<char> charsLeft(alphabet, alphabet + NUMCHARACTERSINALPHABET);
+        for (int i = 0; i < NUMCHARACTERSINALPHABET; i++) {
+            for (char currentChar : charsLeft) {
+                if (currentChar == permutation[i]) {
+                    charsLeft.remove(permutation[i]);
+                    break;
+                } else if (charsLeft.back() == currentChar) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }

@@ -12,7 +12,6 @@
 #include <regex>
 
 bool checkIfStartPositionsIsValid(std::string startPositions);
-bool checkIfAlphabetPermutationIsVaild(std::string permutation);
 
 static int NUMWHEELS = 3;
 
@@ -102,12 +101,18 @@ int main(int argc, char* argv[]) {
     
     
     // init
-    std::vector<Wheel> gearwhees(3);
+    std::vector<Wheel> gearwheels(3);
     
     // calculate
     
     // print result
     printf("\n\n\n");
+    if(gearwheels[0].checkPermutation(alphabet)) {
+        printf("Permutation is valid!\n");
+    } else {
+        printf("Permutation is NOT valid!\n");
+    }
+    
     printf("Start values(%ld): %s\n", startPositions.length(), startPositions.c_str());
     if (checkIfStartPositionsIsValid(startPositions)) {
         printf("Start positions are valid!");
@@ -136,10 +141,4 @@ bool checkIfStartPositionsIsValid(std::string startPositions) {
     }
 
     return true;
-}
-
-bool checkIfAlphabetPermutationIsVaild(std::string permutation) {
-    // Length must be 26 characters
-    // Every letter must be represented once
-    return false;
 }

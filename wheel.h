@@ -8,7 +8,7 @@
 #include <cassert>
 #include <string>
 
-static const int CHARACTERSINALPHABET = 26;
+static const int NUMCHARACTERSINALPHABET = 26;
 static char alphabet[] = "abcdefghijklmnopqrstuvwxyz";
 
 class Wheel {
@@ -19,9 +19,10 @@ class Wheel {
     Wheel* rightNeighbor;
     
     void nextChar(Direction direction);
-    bool checkPermutation(char permutation[]);
     
     public:
+    bool checkPermutation(char permutation[]);
+    
     Wheel();
     Wheel(char alphabet_permutation[]);
     void setStartPosition(char start);

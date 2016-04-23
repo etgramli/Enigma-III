@@ -72,19 +72,25 @@ void Wheel::setStartPosition(char start) {
 }
 
 bool Wheel::checkPermutation(char permutation[]) {
-    // IMPLEMENT THIS !
-
+    // Copy of the string
     std::string permut(permutation);
 
+    // Permutation must have the exact size
     if (permut.length() != NUMCHARACTERSINALPHABET) {
         return false;
     } else {
+        // This holds the remainig / unused character to make sure a letter is only used once
         std::list<char> charsLeft(alphabet, alphabet + NUMCHARACTERSINALPHABET);
+        
+        // Check all letters of the permutation
         for (int i = 0; i < NUMCHARACTERSINALPHABET; i++) {
+            // Check if the letter is in the list of remaining letters
             for (char currentChar : charsLeft) {
-                if (currentChar == permutation[i]) {
-                    charsLeft.remove(permutation[i]);
+                // If the letter was not used before remove it and proceed
+                if (currentChar == permut[i]) {
+                    charsLeft.remove(permut[i]);
                     break;
+                // If end of list reached this means that the current character is used twice
                 } else if (charsLeft.back() == currentChar) {
                     return false;
                 }

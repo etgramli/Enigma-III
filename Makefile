@@ -1,6 +1,6 @@
 CC=g++
 CPPFLAGS=-std=c++11 -Wall
-OBJECTS=gitversion.o wheel.o
+OBJECTS=gitversion.o wheel.o arrangement.o
 TARGET=enigma
 
 debug: main.cpp $(OBJECTS)

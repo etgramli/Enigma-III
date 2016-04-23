@@ -1,8 +1,9 @@
 //main.cpp
 
-#include "wheel.h"
-#include "direction.h"
 #include "gitversion.h"
+#include "direction.h"
+#include "wheel.h"
+#include "arrangement.h"
 
 #include <getopt.h>
 #include <cstdio>
@@ -102,7 +103,7 @@ int main(int argc, char* argv[]) {
             break;
         case 's':
             startPositions = std::string(optarg);
-            if (!checkIfStartPositionsIsValid(startPositions)) {
+            if (!Arrangement::checkIfStartPositionsIsValid(startPositions)) {
                 printf("Start positions are NOT valid!\tMust be three characters (i.e. \"-sabc\").\n\n");
                 exit(-1);
             }
@@ -115,55 +116,18 @@ int main(int argc, char* argv[]) {
     
     
     // init
-    std::vector<Wheel> gearwheels(3);
-    for (int i = 0; i < 3; i++) {
-        gearwheels[i] = Wheel(permutations[i]);
-        gearwheels[i].setStartPosition(startPositions[i]);
-    }
-    gearwheels[0].setNeighbors(NULL, &gearwheels[1]);
-    gearwheels[1].setNeighbors(&gearwheels[0], &gearwheels[2]);
-    gearwheels[2].setNeighbors(&gearwheels[1], NULL);
+    Arrangement arrangement = Arrangement(permutations[0],
+                                          permutations[1],
+                                          permutations[2],
+                                          startPositions);
     
-    printf("Message: \"%s\"\n\n", message.c_str());
+    printf("Input: \"%s\"\n", message.c_str());
     
     // calculate
-    std::string target = std::string();
-    
-    if (!decryption) {
-        for (unsigned int i = 0; i < message.length(); i++) {
-            // Go to char (dispatch to gearwheel).
-            gearwheels[i % 2].goToChar(message[i]);
-            // Get char from 3d wheel
-            target.push_back(gearwheels[2].getCurrentChar());
-        }
-    } else {
-        for (unsigned int i = 0; i < message.length(); i++) {
-            gearwheels[2].goToChar(message[i]);
-            target.push_back(gearwheels[i % 2].getCurrentChar());
-        }
-    }
-    
+    std::string target = decryption ? arrangement.decrypt(message) :
+                                      arrangement.encrypt(message);
 
-    printf("The result is:\n\n%s\n\n", target.c_str());
+    printf("The result is:%s\n\n", target.c_str());
 
     return 0;
-}
-
-bool checkIfStartPositionsIsValid(std::string startPositions) {
-    if (startPositions.empty() || startPositions.length() != 3) {
-        return false;
-    }
-    // Must be three letters long
-    char currentChar;
-    for (int i = 0; i < 3; i++) {
-        currentChar = startPositions[i];
-        if ((currentChar >= 'a' && currentChar <= 'z') ||
-            (currentChar >= 'A' && currentChar <= 'Z')) {
-            continue;
-        } else {
-            return false;
-        }
-    }
-
-    return true;
 }

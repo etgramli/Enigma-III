@@ -1,5 +1,5 @@
 # Enigma-III
-This programm is currently Work in Progress, so it currently does not do what is described here.
+This program comes with a shell scipt (example.sh) with two examples how to use en- and decrpytion.
 
 ## Description
 This is a implementation of a "Emigma III" wooden model for a IT-Security lecture.

@@ -1,9 +1,9 @@
 CC=g++
 CPPFLAGS=-std=c++11 -Wall
-OBJECTS=gitversion.o
+OBJECTS=gitversion.o wheel.o
 TARGET=enigma
 
-debug: main.cpp gitversion.o
+debug: main.cpp $(OBJECTS)
 	$(CC) $(CPPFLAGS) -g $< $(OBJECTS) -o $(TARGET)_debug
 
 enigma: main.cpp gitversion.o

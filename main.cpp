@@ -15,7 +15,6 @@ bool checkIfStartPositionsIsValid(std::string startPositions);
 bool checkIfAlphabetPermutationIsVaild(std::string permutation);
 
 static int NUMWHEELS = 3;
-static std::string startPosRegexString(R"([:alpha:]{3})");
 
 void printHelp() {
     printf("\nThis is made from commit: %s\n\n", gitversion);
@@ -103,16 +102,17 @@ int main(int argc, char* argv[]) {
     
     
     // init
+    std::vector<Wheel> gearwhees(3);
     
     // calculate
     
     // print result
     printf("\n\n\n");
-    printf("Start values: %s\n", startPositions.c_str());
+    printf("Start values(%ld): %s\n", startPositions.length(), startPositions.c_str());
     if (checkIfStartPositionsIsValid(startPositions)) {
         printf("Start positions are valid!");
     } else {
-        printf("Start positions are retarded!");
+        printf("Start positions are false!");
     }
     printf("\n\n\n");
     
@@ -124,12 +124,18 @@ bool checkIfStartPositionsIsValid(std::string startPositions) {
         return false;
     }
     // Must be three letters long
-    std::regex startPointsRegex(startPosRegexString);
-    if (std::regex_match(startPositions, startPointsRegex)) {
-        return true;
-    } else {
-        return false;
+    char currentChar;
+    for (int i = 0; i < 3; i++) {
+        currentChar = startPositions[i];
+        if ((currentChar >= 'a' && currentChar <= 'z') ||
+            (currentChar >= 'A' && currentChar <= 'Z')) {
+            continue;
+        } else {
+            return false;
+        }
     }
+
+    return true;
 }
 
 bool checkIfAlphabetPermutationIsVaild(std::string permutation) {

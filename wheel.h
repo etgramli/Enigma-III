@@ -9,19 +9,21 @@
 #include <string>
 
 static const int CHARACTERSINALPHABET = 26;
+static char alphabet[] = "abcdefghijklmnopqrstuvwxyz";
 
 class Wheel {
-    char alphabet_permuattion[CHARACTERSINALPHABET];
+    std::string alphabet_permuation;
     char* currentChar;
-    std::string id;
     int index;
     Wheel* leftNeighbor;
     Wheel* rightNeighbor;
     
-    void nextChar(Direction& direction);
+    void nextChar(Direction direction);
+    bool checkPermutation(char permutation[]);
     
     public:
-    Wheel(char alphabet_permutation[], Wheel* leftNeighbor, Wheel* rightNeighbor, std::string id);
+    Wheel();
+    Wheel(char alphabet_permutation[]);
     void setStartPosition(char start);
     char getCurrentChar();
     void goToChar(char toSearch);

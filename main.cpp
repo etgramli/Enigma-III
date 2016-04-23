@@ -92,6 +92,10 @@ int main(int argc, char* argv[]) {
             break;
         case 's':
             startPositions = std::string(optarg);
+            if (!checkIfStartPositionsIsValid(startPositions)) {
+                printf("Start positions are NOT valid!\tMust be three characters (i.e. \"-sabc\").\n\n");
+            }
+            exit(-1);
             break;
         default:
             printf("Argument not recognized!!!");
@@ -106,20 +110,7 @@ int main(int argc, char* argv[]) {
     // calculate
     
     // print result
-    printf("\n\n\n");
-    if(gearwheels[0].checkPermutation(alphabet)) {
-        printf("Permutation is valid!\n");
-    } else {
-        printf("Permutation is NOT valid!\n");
-    }
-    
-    printf("Start values(%ld): %s\n", startPositions.length(), startPositions.c_str());
-    if (checkIfStartPositionsIsValid(startPositions)) {
-        printf("Start positions are valid!");
-    } else {
-        printf("Start positions are false!");
-    }
-    printf("\n\n\n");
+
     
     // CleanUp
 }

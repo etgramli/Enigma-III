@@ -18,11 +18,11 @@ class Wheel {
     Wheel* leftNeighbor;
     Wheel* rightNeighbor;
     
+    bool checkPermutation(char permutation[]);
+    
     void nextChar(Direction direction);
     
     public:
-    bool checkPermutation(char permutation[]);
-    
     Wheel();
     Wheel(char alphabet_permutation[]);
     void setStartPosition(char start);

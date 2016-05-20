@@ -4,6 +4,8 @@
 
 #include <list>
 
+const char Wheel::alphabet[] = "abcdefghijklmnopqrstuvwxyz";
+
 Wheel::Wheel() {
     alphabet_permuation = std::string(alphabet);
     leftNeighbor = NULL;

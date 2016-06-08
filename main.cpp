@@ -16,7 +16,7 @@ bool checkIfStartPositionsIsValid(std::string startPositions);
 static int NUMWHEELS = 3;
 
 void printHelp() {
-    printf("\nThis is made from commit: %s\n\n", gitversion);
+    printf("\nThis is made from commit: %s\n\n", gitversion.c_str());
     
     printf("Options:\n");
     printf("\t-h\n");
